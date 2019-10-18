@@ -1,0 +1,47 @@
+version: '3'
+services:
+
+  dbmongo:
+    image: mongo
+    container_name: dbmongo
+    ports:
+     - "27017:27017"
+    restart: always
+    
+  manager:
+    image: manager
+    build: 
+      context: ./manager
+      dockerfile: Dockerfile-dev
+    container_name: manager
+    volumes:
+     - ./tmp/npm:/root/.npm:z
+     - ./manager:/usr/src/app:z
+     - /usr/src/app/node_modules
+    ports:
+     - "3005:3005"
+    environment:
+     - PORT=3005
+     - MONGO_URL=mongodb://dbmongo:27017/todo
+    depends_on:
+     - dbmongo
+    restart: always
+
+  statistics:
+    image: statistics
+    build: 
+      context: ./stats
+      dockerfile: Dockerfile-dev
+    container_name: statistics
+    volumes:
+     - ./tmp/npm:/root/.npm:z
+     - ./stats:/usr/src/app:z
+     - /usr/src/app/node_modules
+    ports:
+     - "3001:3001"
+    environment:
+     - PORT=3001
+     - MONGO_URL=mongodb://dbmongo:27017/todo
+    depends_on:
+     - dbmongo
+    restart: always

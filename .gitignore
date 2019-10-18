@@ -1,0 +1,5 @@
+/backend/.manager
+/backend/manager/tmp
+/backend/stats/tmp
+/backend/tmp
+/backend/frontend/node_modules
