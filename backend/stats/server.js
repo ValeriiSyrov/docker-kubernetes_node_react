@@ -3,13 +3,13 @@ const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const Tasks = require('./tasks')
-
+const cors = require('cors')
 const port = process.env.PORT;
 
 mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true});
 
 app.use(bodyParser.json())
-
+app.use(cors())
 
 app.get('/stats', async (req, res) => {
     try {

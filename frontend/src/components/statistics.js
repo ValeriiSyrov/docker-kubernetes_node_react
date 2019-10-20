@@ -2,8 +2,34 @@ import React from 'react';
 import { connect } from "react-redux";
 import {Pie} from 'react-chartjs-2';
 
-function Statistics({ tasks }) {
-  let analyzed_tasks = analyze(tasks)
+class Statistics extends React.Component {
+  state = {
+    analyzed_tasks: {}
+  }
+
+  async componentWillMount(){
+ 
+      try {
+      let url = 'http://localhost:3001/stats';
+     
+      let resolve = await fetch(url)
+
+      if (resolve.status===200) {
+        let response = await resolve.json()
+       
+         this.setState({analyzed_tasks: response})
+      }
+
+
+    } catch(e) {
+      console.log(e)
+    }
+  
+    
+  }
+
+  render() {
+    const {analyzed_tasks} = this.state
    
   const data = {
     labels: Object.keys(analyzed_tasks),
@@ -27,37 +53,9 @@ function Statistics({ tasks }) {
     <Pie data={data} />
     </div>
   )
+  }
 }
 
-function analyze(tasks) {
-  let result = {
-    failed: 0,
-    in_progress: 0,
-    success: 0
-  };
 
-  tasks.map(el => {
-    switch (el.status) {
-      case "failed":
-        result.failed += 1
-        break;
-      case "in progress":
-        result.in_progress += 1
-        break;
-      case "success":
-        result.success += 1
-        break;
 
-      default:
-        break;
-    }
-  })
-
-  return result
-}
-
-const mapStateToProps = state => {
-  return state
-};
-
-export default connect(mapStateToProps)(Statistics);
+export default Statistics;

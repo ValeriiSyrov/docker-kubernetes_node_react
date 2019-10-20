@@ -36,7 +36,6 @@ class AddField extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     addItem: async (content) => {
-
       try {
       let url = `${config.API}/add`;
       let data = {
@@ -47,17 +46,20 @@ const mapDispatchToProps = dispatch => {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
           'Content-Type': 'application/json'
-          
         },
-        mode:'no-cors',
         body: JSON.stringify(data) // body data type must match "Content-Type" header
       })
+
+      if (resolve.status===200) {
+        let response = await resolve.json()
+        return dispatch(add(response))
+      }
+
 
     } catch(e) {
       console.log(e)
     }
-      
-     //return dispatch(add(content))
+  
     }
   }
 };

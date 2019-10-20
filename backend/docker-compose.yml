@@ -7,7 +7,25 @@ services:
     ports:
      - "27017:27017"
     restart: always
-    
+  
+  suggester:
+    image: suggester
+    build: 
+      context: ./suggester
+      dockerfile: Dockerfile-dev
+    container_name: suggester
+    volumes:
+     - ./suggester:/usr/src/app:z
+     - /usr/src/app/node_modules
+    ports:
+     - "3010:3010"
+    environment:
+     - PORT=3010
+     - MONGO_URL=mongodb://dbmongo:27017/todo
+    depends_on:
+     - dbmongo
+    restart: always
+
   manager:
     image: manager
     build: 
@@ -23,8 +41,10 @@ services:
     environment:
      - PORT=3005
      - MONGO_URL=mongodb://dbmongo:27017/todo
+     - SERVICE_URL=http://suggester:3010
     depends_on:
      - dbmongo
+     - suggester
     restart: always
 
   statistics:

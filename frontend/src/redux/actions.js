@@ -6,12 +6,25 @@ export const add = content => ({
   });
 
 
-  export const succeed_action = id => ({
+  export const succeed_action = task => ({
     type: "SUCCEED_TODO",
     payload: {
-      id
+      task
+    }
+  });
+
+  export const failed_action = task => ({
+    type: "FAILED_TODO",
+    payload: {
+      task
     }
   });
   
+  export const list_action = list =>({
+    type: "LIST_TODO",
+    payload: {
+      list
+    }
+  })
 
   

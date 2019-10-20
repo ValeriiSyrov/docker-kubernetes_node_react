@@ -3,17 +3,20 @@ const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const Tasks = require('./tasks')
+const axios = require('axios')
+const cors = require('cors')
 
 const port = process.env.PORT;
+const SERVICE_URL = process.env.SERVICE_URL
 
 mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true});
 
 app.use(bodyParser.json())
+app.use(cors())
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.post('/add', async (req, res) => {
-     
     try {
        const task = await Tasks.create(req.body)
        res.json(task)
@@ -22,10 +25,22 @@ app.post('/add', async (req, res) => {
     }
 })
 
+app.get("/suggest", (req, res) => {
+    axios.get(SERVICE_URL + "/suggest")
+        .then(response => {
+            res.json(response.data);
+        })
+        .catch(err => {
+            console.error("Error forwarding request:");
+            console.error(err && err.stack || err);
+            res.sendStatus(500);
+        });
+});
+
 
 app.get('/list', async (req, res) => {
     try {
-       const tasks = await Tasks.find({})
+       const tasks = await Tasks.find({'status': {$not: {$eq : "failed"}}})
        res.json(tasks)
     } catch(e) {
         console.log(e)
