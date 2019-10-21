@@ -3,8 +3,16 @@ import { connect } from "react-redux";
 import { succeed_action, failed_action, list_action } from "../redux/actions"
 import AddField from "./AddField"
 import config from "../config"
+import Suggester from "./suggester"
 
 class Manager extends React.Component {
+  state = {
+    openSuggester: false
+  }
+
+  handleOpenSuggester=()=>{
+    this.setState({openSuggester: !this.state.openSuggester})
+  }
 
   setSuccess=(e)=>{
     this.props.succeed(e.currentTarget.dataset.id)
@@ -21,9 +29,12 @@ class Manager extends React.Component {
   render (){
    
     const {tasks}=this.props
+    const {openSuggester} =this.state
   return (
     <>
+       {openSuggester ? <Suggester open={this.handleOpenSuggester}/> : null}
       <AddField />
+      <button className="buttonSuggest" onClick={this.handleOpenSuggester}>Suggestion</button>
       <table className="list">
         <thead>
           <tr>
