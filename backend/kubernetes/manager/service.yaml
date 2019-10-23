@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: manager
+  name: manager-svc
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+    - port: 3005               # 3
+      protocol: TCP          # 4
+      targetPort: 3005
+  selector:
+    app: manager

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment                                          # 1
+metadata:
+  name: stats
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stats                                             # 2
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate                                   # 3
+    rollingUpdate: 
+      maxUnavailable: 1                                   # 4
+      maxSurge: 1                                         # 5
+  template:                                               # 6
+    metadata:
+      labels:
+        app: stats                                  # 7
+    spec:
+      containers:
+        - image: 999dockersyrov/statistics
+          imagePullPolicy: Always                         # 8
+          name: stats
+          env:
+          - name: MONGO_URL
+            value: mongodb://mongo-mongodb-replicaset-0.mongo-mongodb-replicaset.default.svc.cluster.local,
+                   mongo-mongodb-replicaset-1.mongo-mongodb-replicaset.default.svc.cluster.local,
+                   mongo-mongodb-replicaset-2.mongo-mongodb-replicaset.default.svc.cluster.local:27017/todo?replicaSet=db
+          - name: PORT
+            value: "3001"
+          ports:
+            - containerPort: 3001

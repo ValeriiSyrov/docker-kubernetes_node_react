@@ -6,8 +6,8 @@ const Tasks = require('./tasks')
 const axios = require('axios')
 const cors = require('cors')
 
-const port = process.env.PORT;
-const SERVICE_URL = process.env.SERVICE_URL
+const port = process.env.PORT || 3005
+const SERVICE_URL = process.env.SERVICE_URL 
 
 mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true});
 

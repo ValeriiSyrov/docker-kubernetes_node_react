@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: suggester
+  name: suggester-svc
+  namespace: default
+spec:
+  ports:
+    - port: 3010               # 3
+      protocol: TCP          # 4
+      targetPort: 3010
+  selector:
+    app: suggester

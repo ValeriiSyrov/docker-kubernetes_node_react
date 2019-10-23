@@ -12,7 +12,7 @@ class Suggester extends React.Component {
       async componentWillMount(){
      
           try {
-          let url = 'http://localhost:3005/suggest';
+          let url = `${config.API}/suggest`;
          
           let resolve = await fetch(url)
     

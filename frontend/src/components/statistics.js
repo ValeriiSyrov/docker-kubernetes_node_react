@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from "react-redux";
 import {Pie} from 'react-chartjs-2';
+import config from "../config"
 
 class Statistics extends React.Component {
   state = {
@@ -10,7 +10,7 @@ class Statistics extends React.Component {
   async componentWillMount(){
  
       try {
-      let url = 'http://localhost:3001/stats';
+      let url = `${config.API}/stats`;
      
       let resolve = await fetch(url)
 
