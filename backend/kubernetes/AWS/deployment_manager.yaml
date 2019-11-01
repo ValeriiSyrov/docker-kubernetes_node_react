@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment                                          # 1
+metadata:
+  name: manager
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: manager                                             # 2
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate                                   # 3
+    rollingUpdate: 
+      maxUnavailable: 1                                   # 4
+      maxSurge: 1                                         # 5
+  template:                                               # 6
+    metadata:
+      labels:
+        app: manager                                  # 7
+    spec:
+      containers:
+        - image: 999dockersyrov/manager
+          imagePullPolicy: Always                         # 8
+          name: manager
+          env:
+          - name: MONGO_URL
+            value: mongodb://172.31.0.62,
+                   172.31.25.214,
+                   172.31.41.183:27017/todo?replicaSet=rs0
+          - name: SERVICE_URL
+            value: http://suggester-svc:3010
+          ports:
+            - containerPort: 3005

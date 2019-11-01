@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment                                          # 1
+metadata:
+  name: suggester
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: suggester                                             # 2
+  minReadySeconds: 15
+  strategy:
+    type: RollingUpdate                                   # 3
+    rollingUpdate: 
+      maxUnavailable: 1                                   # 4
+      maxSurge: 1                                         # 5
+  template:                                               # 6
+    metadata:
+      labels:
+        app: suggester                                  # 7
+    spec:
+      containers:
+        - image: 999dockersyrov/suggester
+          imagePullPolicy: Always                         # 8
+          name: suggester
+          env:
+          - name: MONGO_URL
+            value: mongodb://172.31.0.62,
+                   172.31.25.214,
+                   172.31.41.183:27017/todo?replicaSet=rs0
+          - name: PORT
+            value: "3010"
+          ports:
+            - containerPort: 3010

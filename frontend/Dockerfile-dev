@@ -4,11 +4,11 @@ WORKDIR /usr/src/app
 
 COPY /server/package*.json ./
 
-COPY ./server/ ./
+COPY ./server/ ./server
 COPY ./build/ ./build
 
 RUN npm install
 
 EXPOSE 3050
 
-CMD node server.js
+CMD node ./server/server.js

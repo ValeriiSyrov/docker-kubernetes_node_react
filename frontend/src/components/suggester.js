@@ -12,7 +12,7 @@ class Suggester extends React.Component {
       async componentWillMount(){
      
           try {
-          let url = `${config.API}/suggest`;
+          let url = `${config.API_MANAGER}/suggest`;
          
           let resolve = await fetch(url)
     
@@ -63,7 +63,7 @@ const mapDispatchToProps = dispatch => {
   return {
     changeStatus: async (_id) => {
         try {
-        let url = `${config.API}/changestatus`;
+        let url = `${config.API_MANAGER}/changestatus`;
         let data = {
          _id,
           status: "in progress"

@@ -37,7 +37,7 @@ const mapDispatchToProps = dispatch => {
   return {
     addItem: async (content) => {
       try {
-      let url = `${config.API}/add`;
+      let url = `${config.API_MANAGER}/add`;
       let data = {
         task: content,
         status: "in progress"

@@ -1,17 +1,14 @@
-apiVersion: apps/v1
+apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
- name: mongo
+ name: mongodb
 spec:
- serviceName: "mongo"
+ serviceName: "service-mongodb"
  replicas: 3
- selector:
-    matchLabels:
-      app: mongo
  template:
    metadata:
      labels:
-       app: mongo
+       role: mongo
        environment: test
    spec:
      terminationGracePeriodSeconds: 10
@@ -22,19 +19,24 @@ spec:
            - mongod
            - "--replSet"
            - rs0
-           - "--smallfiles"
-           - "--noprealloc"
+           - "--bind_ip=0.0.0.0"
          ports:
            - containerPort: 27017
          volumeMounts:
            - name: mongo-persistent-storage
              mountPath: /data/db
+       - name: mongo-sidecar
+         image: cvallance/mongo-k8s-sidecar
+         env:
+           - name: MONGO_SIDECAR_POD_LABELS
+             value: "role=mongo,environment=test"
  volumeClaimTemplates:
  - metadata:
-     name: volume
-    
+     name: mongo-persistent-storage
+     annotations:
+       volume.beta.kubernetes.io/storage-class: "sc-gp2"
    spec:
      accessModes: [ "ReadWriteOnce" ]
      resources:
        requests:
-         storage: 1Gi
+         storage: 3Gi

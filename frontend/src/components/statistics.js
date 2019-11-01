@@ -10,7 +10,7 @@ class Statistics extends React.Component {
   async componentWillMount(){
  
       try {
-      let url = `${config.API}/stats`;
+      let url = `${config.API_STATS}/stats`;
      
       let resolve = await fetch(url)
 

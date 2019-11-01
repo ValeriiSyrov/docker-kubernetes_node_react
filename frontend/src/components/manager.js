@@ -77,7 +77,7 @@ const mapDispatchToProps = dispatch => {
   return {
     succeed: async (_id) => {
       try {
-      let url = `${config.API}/changestatus`;
+      let url = `${config.API_MANAGER}/changestatus`;
       let data = {
        _id,
         status: "success"
@@ -106,7 +106,7 @@ const mapDispatchToProps = dispatch => {
 
     failed: async (_id) => {
       try {
-      let url = `${config.API}/changestatus`;
+      let url = `${config.API_MANAGER}/changestatus`;
       let data = {
        _id,
         status: "failed"
@@ -135,7 +135,7 @@ const mapDispatchToProps = dispatch => {
 
     getList: async (_id) => {
       try {
-      let url = `${config.API}/list`;
+      let url = `${config.API_MANAGER}/list`;
      
       let resolve = await fetch(url)
 
