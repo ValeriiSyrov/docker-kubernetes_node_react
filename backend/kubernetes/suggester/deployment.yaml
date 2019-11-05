@@ -24,9 +24,7 @@ spec:
           name: suggester
           env:
           - name: MONGO_URL
-            value: mongodb://mongo-mongodb-replicaset-0.mongo-mongodb-replicaset.default.svc.cluster.local,
-                   mongo-mongodb-replicaset-1.mongo-mongodb-replicaset.default.svc.cluster.local,
-                   mongo-mongodb-replicaset-2.mongo-mongodb-replicaset.default.svc.cluster.local:27017/todo?replicaSet=db
+            value: mongodb://mongo-svc:27017/todo
           - name: PORT
             value: "3010"
           ports:

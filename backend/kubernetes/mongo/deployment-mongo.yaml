@@ -4,7 +4,7 @@ metadata:
  name: mongo
 spec:
  serviceName: "mongo"
- replicas: 3
+ replicas: 1
  selector:
     matchLabels:
       app: mongo
@@ -18,12 +18,6 @@ spec:
      containers:
        - name: mongo
          image: mongo
-         command:
-           - mongod
-           - "--replSet"
-           - rs0
-           - "--smallfiles"
-           - "--noprealloc"
          ports:
            - containerPort: 27017
          volumeMounts:
@@ -31,8 +25,7 @@ spec:
              mountPath: /data/db
  volumeClaimTemplates:
  - metadata:
-     name: volume
-    
+     name: mongo-persistent-storage
    spec:
      accessModes: [ "ReadWriteOnce" ]
      resources:

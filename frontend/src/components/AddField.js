@@ -37,15 +37,17 @@ const mapDispatchToProps = dispatch => {
   return {
     addItem: async (content) => {
       try {
-      let url = `${config.API_MANAGER}/add`;
+      let url = `${config.API}/add`;
       let data = {
         task: content,
         status: "in progress"
       }
       let resolve = await fetch(url, {
+        mode: 'no-cors',
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
           'Content-Type': 'application/json'
+       
         },
         body: JSON.stringify(data) // body data type must match "Content-Type" header
       })

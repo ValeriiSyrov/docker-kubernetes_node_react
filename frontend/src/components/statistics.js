@@ -10,9 +10,15 @@ class Statistics extends React.Component {
   async componentWillMount(){
  
       try {
-      let url = `${config.API_STATS}/stats`;
+      let url = `${config.API}/stats`;
      
-      let resolve = await fetch(url)
+      let resolve = await fetch(url,{
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        mode: 'no-cors',
+        headers: {
+        'Access-Control-Allow-Origin': '*'
+        }
+      })
 
       if (resolve.status===200) {
         let response = await resolve.json()

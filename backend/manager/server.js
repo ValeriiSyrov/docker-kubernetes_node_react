@@ -9,7 +9,12 @@ const cors = require('cors')
 const port = process.env.PORT || 3005
 const SERVICE_URL = process.env.SERVICE_URL 
 
-mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true});
+mongoose.connect(process.env.MONGO_URL||'mongodb://localhost:27017/todo', {useNewUrlParser: true})
+.then(()=>console.log("Connected to MongoDB"))
+.catch((e)=>{
+    console.log(e)
+    process.exit()
+});
 
 app.use(bodyParser.json())
 app.use(cors())

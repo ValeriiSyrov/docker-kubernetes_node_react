@@ -6,7 +6,6 @@ metadata:
   name: manager-svc
   namespace: default
 spec:
-  type: NodePort
   ports:
     - port: 3005               # 3
       protocol: TCP          # 4

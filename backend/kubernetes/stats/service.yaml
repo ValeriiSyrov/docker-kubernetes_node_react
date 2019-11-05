@@ -6,7 +6,6 @@ metadata:
   name: stats-svc
   namespace: default
 spec:
-  type: NodePort
   ports:
     - port: 3001               # 3
       protocol: TCP          # 4
